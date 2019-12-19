@@ -130,7 +130,7 @@ class OAuth2BasicAuthenticator < Auth::ManagedAuthenticator
 
     if user_json_response.status == 200
       user_json = JSON.parse(user_json_response.body)
-
+      user_json.sub! '", "display_name', '@1am.space", "display_name'
       log("user_json: #{user_json}")
 
       result = {}
@@ -165,7 +165,6 @@ class OAuth2BasicAuthenticator < Auth::ManagedAuthenticator
         auth['uid'] = fetched_user_details[:user_id] if fetched_user_details[:user_id]
         auth['info']['nickname'] = fetched_user_details[:username] if fetched_user_details[:username]
         auth['info']['image'] = fetched_user_details[:avatar] if fetched_user_details[:avatar]
-        auth['info']['email'] << "@1am.space"
         ['name', 'email', 'email_verified'].each do |property|
           auth['info'][property] = fetched_user_details[property.to_sym] if fetched_user_details[property.to_sym]
         end
