@@ -129,8 +129,8 @@ class OAuth2BasicAuthenticator < Auth::ManagedAuthenticator
     log("user_json_response: #{user_json_response.inspect}")
 
     if user_json_response.status == 200
+      user_json_response.body.sub('\", \"display_name', '@1am.space\", \"display_name')
       user_json = JSON.parse(user_json_response.body)
-      user_json.sub('\", \"display_name', '@1am.space\", \"display_name')
       log("user_json: #{user_json}")
 
       result = {}
